@@ -1,28 +1,30 @@
 'use strict';
-const mimicFn = require('mimic-fn');
 
-module.exports = (fn, options) => {
+/* eslint-disable no-var, prefer-rest-params */
+var mimicFn = require('mimic-fn');
+
+module.exports = function (fn, options) {
 	if (typeof fn !== 'function') {
-		throw new TypeError(`Expected the first argument to be a function, got \`${typeof fn}\``);
+		throw new TypeError('Expected the first argument to be a function, got ' + (typeof fn));
 	}
 
 	options = options || {};
 
-	let timeout;
-	let result;
+	var timeout;
+	var result;
 
-	const debounced = function () {
-		const context = this;
-		const args = arguments;
+	var debounced = function () {
+		var context = this;
+		var args = arguments;
 
-		const later = () => {
+		var later = function () {
 			timeout = null;
 			if (!options.immediate) {
 				result = fn.apply(context, args);
 			}
 		};
 
-		const callNow = options.immediate && !timeout;
+		var callNow = options.immediate && !timeout;
 		clearTimeout(timeout);
 		timeout = setTimeout(later, options.wait || 0);
 
@@ -35,7 +37,7 @@ module.exports = (fn, options) => {
 
 	mimicFn(debounced, fn);
 
-	debounced.cancel = () => {
+	debounced.cancel = function () {
 		if (timeout) {
 			clearTimeout(timeout);
 			timeout = null;
