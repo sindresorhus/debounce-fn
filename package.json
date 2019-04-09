@@ -1,39 +1,41 @@
 {
-  "name": "debounce-fn",
-  "version": "1.0.0",
-  "description": "Debounce a function",
-  "license": "MIT",
-  "repository": "sindresorhus/debounce-fn",
-  "author": {
-    "name": "Sindre Sorhus",
-    "email": "sindresorhus@gmail.com",
-    "url": "sindresorhus.com"
-  },
-  "engines": {
-    "node": ">=4"
-  },
-  "scripts": {
-    "test": "xo && ava"
-  },
-  "files": [
-    "index.js"
-  ],
-  "keywords": [
-    "debounce",
-    "function",
-    "debouncer",
-    "fn",
-    "func",
-    "throttle",
-    "delay",
-    "invoked"
-  ],
-  "dependencies": {
-    "mimic-fn": "^1.1.0"
-  },
-  "devDependencies": {
-    "ava": "*",
-    "delay": "^2.0.0",
-    "xo": "*"
-  }
+	"name": "debounce-fn",
+	"version": "1.0.0",
+	"description": "Debounce a function",
+	"license": "MIT",
+	"repository": "sindresorhus/debounce-fn",
+	"author": {
+		"name": "Sindre Sorhus",
+		"email": "sindresorhus@gmail.com",
+		"url": "sindresorhus.com"
+	},
+	"engines": {
+		"node": ">=8"
+	},
+	"scripts": {
+		"test": "xo && ava && tsd"
+	},
+	"files": [
+		"index.js",
+		"index.d.ts"
+	],
+	"keywords": [
+		"debounce",
+		"function",
+		"debouncer",
+		"fn",
+		"func",
+		"throttle",
+		"delay",
+		"invoked"
+	],
+	"dependencies": {
+		"mimic-fn": "^2.1.0"
+	},
+	"devDependencies": {
+		"ava": "^1.4.1",
+		"delay": "^4.2.0",
+		"tsd": "^0.7.2",
+		"xo": "^0.24.0"
+	}
 }
