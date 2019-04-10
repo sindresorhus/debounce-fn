@@ -1,11 +1,11 @@
 import test from 'ava';
 import delay from 'delay';
-import m from '.';
+import debounceFn from '.';
 
 test('debounces a function', async t => {
 	let count = 0;
 
-	const debounced = m(value => {
+	const debounced = debounceFn(value => {
 		count++;
 		return value;
 	}, {
@@ -29,7 +29,7 @@ test('debounces a function', async t => {
 test('immediate option', async t => {
 	let count = 0;
 
-	const debounced = m(value => {
+	const debounced = debounceFn(value => {
 		count++;
 		return value;
 	}, {
@@ -54,7 +54,7 @@ test('immediate option', async t => {
 test('.cancel() method', async t => {
 	let count = 0;
 
-	const debounced = m(value => {
+	const debounced = debounceFn(value => {
 		count++;
 		return value;
 	}, {
