@@ -1,4 +1,4 @@
-declare namespace debounce {
+declare namespace debounceFn {
 	interface Options {
 		/**
 		Time to wait until the `input` function is called.
@@ -13,6 +13,15 @@ declare namespace debounce {
 		@default false
 		*/
 		readonly immediate?: boolean;
+	}
+
+	interface ImmediateOptions extends Options {
+		readonly immediate: true;
+	}
+
+	interface DebouncedFunction<ArgumentsType extends unknown[], ReturnType> {
+		(...arguments: ArgumentsType): ReturnType;
+		cancel(): void;
 	}
 }
 
@@ -35,7 +44,11 @@ window.onresize = debounceFn(() => {
 */
 declare function debounceFn<ArgumentsType extends unknown[], ReturnType>(
 	input: (...arguments: ArgumentsType) => ReturnType,
-	options?: debounce.Options
-): ((...arguments: ArgumentsType) => ReturnType | undefined) & {cancel(): void};
+	options: debounceFn.ImmediateOptions
+): debounceFn.DebouncedFunction<ArgumentsType, ReturnType>;
+declare function debounceFn<ArgumentsType extends unknown[], ReturnType>(
+	input: (...arguments: ArgumentsType) => ReturnType,
+	options?: debounceFn.Options
+): debounceFn.DebouncedFunction<ArgumentsType, ReturnType | undefined>;
 
 export = debounceFn;
