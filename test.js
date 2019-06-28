@@ -26,31 +26,12 @@ test('debounces a function', async t => {
 	t.is(count, 2);
 });
 
-test('before:false after:false options', async t => {
-	let count = 0;
-
-	const debounced = debounceFn(value => {
-		count++;
-		return value;
-	}, {
+test('before:false after:false options', t => {
+	t.throws(() => debounceFn(() => null, {
 		wait: 20,
 		before: false,
 		after: false
-	});
-
-	t.is(debounced(1), undefined);
-	t.is(debounced(2), undefined);
-	t.is(debounced(3), undefined);
-	t.is(count, 0);
-
-	await delay(100);
-	t.is(debounced(4), undefined);
-	t.is(debounced(5), undefined);
-	t.is(debounced(6), undefined);
-	t.is(count, 0);
-
-	await delay(200);
-	t.is(count, 0);
+	}), 'Both `before` and `after` are false, function wouldn\'t be called.');
 });
 
 test('before:true after:false options', async t => {
