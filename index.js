@@ -9,6 +9,10 @@ module.exports = (fn, options = {}) => {
 	const before = (options.before === undefined) ? false : options.before;
 	const after = (options.after === undefined) ? true : options.after;
 
+	if (!before && !after) {
+		throw new Error('Both `before` and `after` are false, function wouldn\'t be called.');
+	}
+
 	let timeout;
 	let result;
 
