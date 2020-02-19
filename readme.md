@@ -46,13 +46,19 @@ Default: `0`
 
 Time to wait until the `input` function is called.
 
-##### immediate
+##### before
 
 Type: `boolean`<br>
 Default: `false`
 
-Trigger the function on the leading edge instead of the trailing edge of the `wait` interval. For example, can be useful for preventing accidental double-clicks on a "submit" button from firing a second time.
+Trigger the function on leading edge of `wait` interval. For example, can be useful for preventing accidental double-clicks on a "submit" button from firing a second time.
 
+##### after
+
+Type: `boolean`<br>
+Default: `true`
+
+Trigger the function on trailing edge of `wait` interval.
 
 ## Related
 

@@ -1,23 +1,24 @@
 import {expectType, expectError} from 'tsd';
 import debounceFn = require('.');
 
+const stringToBoolean = (string: string) => true;
+
 const options: debounceFn.Options = {};
-const debounced = debounceFn((string: string) => true);
-expectType<debounceFn.DebouncedFunction<[string], boolean | undefined>>(
-	debounced
-);
+const debounced = debounceFn(stringToBoolean);
+expectType<debounceFn.DebouncedFunction<[string], boolean | undefined>>(debounced);
 expectType<boolean | undefined>(debounced('foo'));
 debounced.cancel();
 
-const debouncedWithoutOptions = debounceFn((string: string) => true);
-expectType<boolean | undefined>(debouncedWithoutOptions('foo'));
-expectError<boolean>(debouncedWithoutOptions('foo'));
+expectType<boolean | undefined>(debounceFn(stringToBoolean)('foo'));
+expectError<boolean>(debounceFn(stringToBoolean)('foo'));
 
-const debouncedWithWait = debounceFn((string: string) => true, {wait: 100});
-expectType<boolean | undefined>(debouncedWithWait('foo'));
-expectError<boolean>(debouncedWithWait('foo'));
+expectType<boolean | undefined>(debounceFn(stringToBoolean, {wait: 20})('foo'));
+expectError<boolean>(debounceFn(stringToBoolean, {wait: 20})('foo'));
+expectType<boolean | undefined>(debounceFn(stringToBoolean, {after: true})('foo'));
+expectError<boolean>(debounceFn(stringToBoolean, {after: true})('foo'));
 
-const debouncedWithImmediate = debounceFn((string: string) => true, {
-	immediate: true
-});
-expectType<boolean>(debouncedWithImmediate('foo'));
+expectType<boolean>(debounceFn(stringToBoolean, {before: true})('foo'));
+expectType<boolean>(debounceFn(stringToBoolean, {before: true, after: true})('foo'));
+
+expectType<undefined>(debounceFn(stringToBoolean, {after: false})('foo'));
+expectError<boolean>(debounceFn(stringToBoolean, {after: false})('foo'));

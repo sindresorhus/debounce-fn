@@ -8,15 +8,27 @@ declare namespace debounceFn {
 		readonly wait?: number;
 
 		/**
-		Trigger the function on the leading edge instead of the trailing edge of the `wait` interval. For example, can be useful for preventing accidental double-clicks on a "submit" button from firing a second time.
+		Trigger the function on leading edge of `wait` interval. For example, can be useful for preventing accidental double-clicks on a "submit" button from firing a second time.
 
 		@default false
 		*/
-		readonly immediate?: boolean;
+		readonly before?: boolean;
+
+		/**
+		Trigger the function on trailing edge of `wait` interval.
+
+		@default true
+		*/
+		readonly after?: boolean;
 	}
 
-	interface ImmediateOptions extends Options {
-		readonly immediate: true;
+	interface BeforeOptions extends Options {
+		readonly before: true;
+	}
+
+	interface NoBeforeNoAfterOptions extends Options {
+		readonly after: false;
+		readonly before?: false;
 	}
 
 	interface DebouncedFunction<ArgumentsType extends unknown[], ReturnType> {
@@ -44,8 +56,14 @@ window.onresize = debounceFn(() => {
 */
 declare function debounceFn<ArgumentsType extends unknown[], ReturnType>(
 	input: (...arguments: ArgumentsType) => ReturnType,
-	options: debounceFn.ImmediateOptions
+	options: debounceFn.BeforeOptions
 ): debounceFn.DebouncedFunction<ArgumentsType, ReturnType>;
+
+declare function debounceFn<ArgumentsType extends unknown[], ReturnType>(
+	input: (...arguments: ArgumentsType) => ReturnType,
+	options: debounceFn.NoBeforeNoAfterOptions
+): debounceFn.DebouncedFunction<ArgumentsType, undefined>;
+
 declare function debounceFn<ArgumentsType extends unknown[], ReturnType>(
 	input: (...arguments: ArgumentsType) => ReturnType,
 	options?: debounceFn.Options
