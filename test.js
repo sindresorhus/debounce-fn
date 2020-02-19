@@ -27,11 +27,15 @@ test('debounces a function', async t => {
 });
 
 test('before:false after:false options', t => {
-	t.throws(() => debounceFn(() => null, {
-		wait: 20,
-		before: false,
-		after: false
-	}), 'Both `before` and `after` are false, function wouldn\'t be called.');
+	t.throws(() => {
+		debounceFn(() => null, {
+			wait: 20,
+			before: false,
+			after: false
+		});
+	}, {
+		message: 'Both `before` and `after` are false, function wouldn\'t be called.'
+	});
 });
 
 test('before:true after:false options', async t => {

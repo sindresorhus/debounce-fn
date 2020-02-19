@@ -8,14 +8,16 @@ declare namespace debounceFn {
 		readonly wait?: number;
 
 		/**
-		Trigger the function on leading edge of `wait` interval. For example, can be useful for preventing accidental double-clicks on a "submit" button from firing a second time.
+		Trigger the function on the leading edge of the `wait` interval.
+
+		For example, this can be useful for preventing accidental double-clicks on a "submit" button from firing a second time.
 
 		@default false
 		*/
 		readonly before?: boolean;
 
 		/**
-		Trigger the function on trailing edge of `wait` interval.
+		Trigger the function on the trailing edge of the `wait` interval.
 
 		@default true
 		*/
