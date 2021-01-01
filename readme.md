@@ -1,4 +1,4 @@
-# debounce-fn [![Build Status](https://travis-ci.org/sindresorhus/debounce-fn.svg?branch=master)](https://travis-ci.org/sindresorhus/debounce-fn)
+# debounce-fn
 
 > [Debounce](https://davidwalsh.name/javascript-debounce-function) a function
 
