@@ -26,7 +26,7 @@ module.exports = (inputFunction, options = {}) => {
 			timeout = undefined;
 
 			if (after) {
-				result = inputFunction.apply(context, arguments_);
+				inputFunction.apply(context, arguments_);
 			}
 		};
 
