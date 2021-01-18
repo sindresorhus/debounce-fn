@@ -142,3 +142,28 @@ test('.cancel() method', async t => {
 	t.is(debounced(3), undefined);
 	t.is(count, 0);
 });
+
+test('debounces a function with maxWait', async t => {
+	let count = 0;
+
+	const debounced = debounceFn(value => {
+		count++;
+		return value;
+	}, {
+		wait: 40,
+		maxWait: 50
+	});
+
+	t.is(debounced(1), undefined);
+	await delay(30);
+	t.is(count, 0);
+
+	t.is(debounced(2), undefined);
+	await delay(30);
+	t.is(count, 1);
+
+	t.is(debounced(3), 1);
+
+	await delay(200);
+	t.is(count, 2);
+});

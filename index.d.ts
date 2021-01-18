@@ -8,6 +8,15 @@ declare namespace debounceFn {
 		readonly wait?: number;
 
 		/**
+		Maximum time to wait until the `input` function is called.
+		Only applies when after is true.
+		Disabled when 0
+
+		@default 0
+		*/
+		readonly maxWait?: number;
+
+		/**
 		Trigger the function on the leading edge of the `wait` interval.
 
 		For example, this can be useful for preventing accidental double-clicks on a "submit" button from firing a second time.

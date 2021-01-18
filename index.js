@@ -8,6 +8,7 @@ module.exports = (inputFunction, options = {}) => {
 
 	const {
 		wait = 0,
+		maxWait = 0,
 		before = false,
 		after = true
 	} = options;
@@ -17,6 +18,7 @@ module.exports = (inputFunction, options = {}) => {
 	}
 
 	let timeout;
+	let maxTimeout;
 	let result;
 
 	const debouncedFunction = function (...arguments_) {
@@ -25,14 +27,34 @@ module.exports = (inputFunction, options = {}) => {
 		const later = () => {
 			timeout = undefined;
 
+			if (maxTimeout) {
+				clearTimeout(maxTimeout);
+				maxTimeout = undefined;
+			}
+
 			if (after) {
 				result = inputFunction.apply(context, arguments_);
 			}
 		};
 
+		const maxLater = () => {
+			maxTimeout = undefined;
+
+			if (timeout) {
+				clearTimeout(timeout);
+				timeout = undefined;
+			}
+
+			result = inputFunction.apply(context, arguments_);
+		};
+
 		const shouldCallNow = before && !timeout;
 		clearTimeout(timeout);
 		timeout = setTimeout(later, wait);
+
+		if (maxWait > 0 && !maxTimeout && after) {
+			maxTimeout = setTimeout(maxLater, maxWait);
+		}
 
 		if (shouldCallNow) {
 			result = inputFunction.apply(context, arguments_);
@@ -47,6 +69,11 @@ module.exports = (inputFunction, options = {}) => {
 		if (timeout) {
 			clearTimeout(timeout);
 			timeout = undefined;
+		}
+
+		if (maxTimeout) {
+			clearTimeout(maxTimeout);
+			maxTimeout = undefined;
 		}
 	};
 
