@@ -49,7 +49,7 @@ It comes with a `.cancel()` method to cancel any scheduled `input` function call
 
 @example
 ```
-import debounceFn = require('debounce-fn');
+import debounceFn from 'debounce-fn';
 
 window.onresize = debounceFn(() => {
 	// Do something on window resize
@@ -71,4 +71,4 @@ declare function debounceFn<ArgumentsType extends unknown[], ReturnType>(
 	options?: debounceFn.Options
 ): debounceFn.DebouncedFunction<ArgumentsType, ReturnType | undefined>;
 
-export = debounceFn;
+export default debounceFn;

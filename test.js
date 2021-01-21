@@ -1,6 +1,6 @@
 import test from 'ava';
 import delay from 'delay';
-import debounceFn from '.';
+import debounceFn from './index.js';
 
 test('debounces a function', async t => {
 	let count = 0;
