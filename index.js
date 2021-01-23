@@ -45,14 +45,16 @@ module.exports = (inputFunction, options = {}) => {
 				timeout = undefined;
 			}
 
-			result = inputFunction.apply(context, arguments_);
+			if (after) {
+				result = inputFunction.apply(context, arguments_);
+			}
 		};
 
 		const shouldCallNow = before && !timeout;
 		clearTimeout(timeout);
 		timeout = setTimeout(later, wait);
 
-		if (maxWait > 0 && !maxTimeout && after) {
+		if (maxWait > 0 && !maxTimeout) {
 			maxTimeout = setTimeout(maxLater, maxWait);
 		}
 

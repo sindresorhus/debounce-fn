@@ -43,6 +43,16 @@ Default: `0`
 
 Time to wait until the `input` function is called.
 
+##### maxWait
+
+Type: `number`\
+Default: `0` (disabled)
+
+Maximum time in milliseconds to wait between calls to the `input` function.
+
+This can be used to limit the number of calls handled in a constant stream.
+For example, a media player sending updates every few milliseconds but wants to be handled only once a second.
+
 ##### before
 
 Type: `boolean`\

@@ -143,7 +143,7 @@ test('.cancel() method', async t => {
 	t.is(count, 0);
 });
 
-test('debounces a function with maxWait', async t => {
+test('before:false after:true `maxWait` option', async t => {
 	let count = 0;
 
 	const debounced = debounceFn(value => {
@@ -151,7 +151,9 @@ test('debounces a function with maxWait', async t => {
 		return value;
 	}, {
 		wait: 40,
-		maxWait: 50
+		maxWait: 50,
+		after: true,
+		before: false
 	});
 
 	t.is(debounced(1), undefined);
@@ -166,4 +168,34 @@ test('debounces a function with maxWait', async t => {
 
 	await delay(200);
 	t.is(count, 2);
+});
+
+test('before:true after:false `maxWait` option', async t => {
+	let count = 0;
+
+	const debounced = debounceFn(value => {
+		count++;
+		return value;
+	}, {
+		wait: 40,
+		maxWait: 50,
+		after: false,
+		before: true
+	});
+
+	t.is(debounced(1), 1);
+	t.is(count, 1);
+	await delay(30);
+
+	t.is(debounced(2), 1);
+	t.is(count, 1);
+	await delay(30);
+
+	t.is(debounced(3), 3);
+	t.is(count, 2);
+
+	await delay(50);
+
+	t.is(debounced(4), 4);
+	t.is(count, 3);
 });

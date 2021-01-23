@@ -1,16 +1,18 @@
 declare namespace debounceFn {
 	interface Options {
 		/**
-		Time to wait until the `input` function is called.
+		Time in milliseconds to wait until the `input` function is called.
 
 		@default 0
 		*/
 		readonly wait?: number;
 
 		/**
-		Maximum time to wait until the `input` function is called.
-		Only applies when after is true.
+		Maximum time in milliseconds to wait between calls to the `input` function.
 		Disabled when 0
+
+		This can be used to limit the number of calls handled in a constant stream.
+		For example, a media player sending updates every few milliseconds but wants to be handled only once a second.
 
 		@default 0
 		*/
