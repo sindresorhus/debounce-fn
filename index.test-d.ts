@@ -1,11 +1,11 @@
 import {expectType, expectError} from 'tsd';
-import debounceFn = require('.');
+import debounceFn, {DebouncedFunction, Options} from './index.js';
 
 const stringToBoolean = (string: string) => true;
 
-const options: debounceFn.Options = {};
+const options: Options = {};
 const debounced = debounceFn(stringToBoolean);
-expectType<debounceFn.DebouncedFunction<[string], boolean | undefined>>(debounced);
+expectType<DebouncedFunction<[string], boolean | undefined>>(debounced);
 expectType<boolean | undefined>(debounced('foo'));
 debounced.cancel();
 
@@ -20,5 +20,7 @@ expectError<boolean>(debounceFn(stringToBoolean, {after: true})('foo'));
 expectType<boolean>(debounceFn(stringToBoolean, {before: true})('foo'));
 expectType<boolean>(debounceFn(stringToBoolean, {before: true, after: true})('foo'));
 
+// eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
 expectType<undefined>(debounceFn(stringToBoolean, {after: false})('foo'));
+// eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
 expectError<boolean>(debounceFn(stringToBoolean, {after: false})('foo'));

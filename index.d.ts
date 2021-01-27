@@ -1,42 +1,40 @@
-declare namespace debounceFn {
-	interface Options {
-		/**
-		Time to wait until the `input` function is called.
+export interface Options {
+	/**
+	Time to wait until the `input` function is called.
 
-		@default 0
-		*/
-		readonly wait?: number;
+	@default 0
+	*/
+	readonly wait?: number;
 
-		/**
-		Trigger the function on the leading edge of the `wait` interval.
+	/**
+	Trigger the function on the leading edge of the `wait` interval.
 
-		For example, this can be useful for preventing accidental double-clicks on a "submit" button from firing a second time.
+	For example, this can be useful for preventing accidental double-clicks on a "submit" button from firing a second time.
 
-		@default false
-		*/
-		readonly before?: boolean;
+	@default false
+	*/
+	readonly before?: boolean;
 
-		/**
-		Trigger the function on the trailing edge of the `wait` interval.
+	/**
+	Trigger the function on the trailing edge of the `wait` interval.
 
-		@default true
-		*/
-		readonly after?: boolean;
-	}
+	@default true
+	*/
+	readonly after?: boolean;
+}
 
-	interface BeforeOptions extends Options {
-		readonly before: true;
-	}
+export interface BeforeOptions extends Options {
+	readonly before: true;
+}
 
-	interface NoBeforeNoAfterOptions extends Options {
-		readonly after: false;
-		readonly before?: false;
-	}
+export interface NoBeforeNoAfterOptions extends Options {
+	readonly after: false;
+	readonly before?: false;
+}
 
-	interface DebouncedFunction<ArgumentsType extends unknown[], ReturnType> {
-		(...arguments: ArgumentsType): ReturnType;
-		cancel(): void;
-	}
+export interface DebouncedFunction<ArgumentsType extends unknown[], ReturnType> {
+	(...arguments: ArgumentsType): ReturnType;
+	cancel(): void;
 }
 
 /**
@@ -49,7 +47,7 @@ It comes with a `.cancel()` method to cancel any scheduled `input` function call
 
 @example
 ```
-import debounceFn = require('debounce-fn');
+import debounceFn from 'debounce-fn';
 
 window.onresize = debounceFn(() => {
 	// Do something on window resize
@@ -58,17 +56,17 @@ window.onresize = debounceFn(() => {
 */
 declare function debounceFn<ArgumentsType extends unknown[], ReturnType>(
 	input: (...arguments: ArgumentsType) => ReturnType,
-	options: debounceFn.BeforeOptions
-): debounceFn.DebouncedFunction<ArgumentsType, ReturnType>;
+	options: BeforeOptions
+): DebouncedFunction<ArgumentsType, ReturnType>;
 
 declare function debounceFn<ArgumentsType extends unknown[], ReturnType>(
 	input: (...arguments: ArgumentsType) => ReturnType,
-	options: debounceFn.NoBeforeNoAfterOptions
-): debounceFn.DebouncedFunction<ArgumentsType, undefined>;
+	options: NoBeforeNoAfterOptions
+): DebouncedFunction<ArgumentsType, undefined>;
 
 declare function debounceFn<ArgumentsType extends unknown[], ReturnType>(
 	input: (...arguments: ArgumentsType) => ReturnType,
-	options?: debounceFn.Options
-): debounceFn.DebouncedFunction<ArgumentsType, ReturnType | undefined>;
+	options?: Options
+): DebouncedFunction<ArgumentsType, ReturnType | undefined>;
 
-export = debounceFn;
+export default debounceFn;
