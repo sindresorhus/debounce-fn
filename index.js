@@ -8,7 +8,7 @@ module.exports = (inputFunction, options = {}) => {
 
 	const {
 		wait = 0,
-		maxWait = 0,
+		maxWait = Number.Infinity,
 		before = false,
 		after = true
 	} = options;
@@ -54,7 +54,7 @@ module.exports = (inputFunction, options = {}) => {
 		clearTimeout(timeout);
 		timeout = setTimeout(later, wait);
 
-		if (maxWait > 0 && !maxTimeout) {
+		if (maxWait > 0 && maxWait !== Number.Infinity && !maxTimeout) {
 			maxTimeout = setTimeout(maxLater, maxWait);
 		}
 

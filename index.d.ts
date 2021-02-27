@@ -8,13 +8,12 @@ declare namespace debounceFn {
 		readonly wait?: number;
 
 		/**
-		Maximum time in milliseconds to wait between calls to the `input` function.
-		Disabled when 0
+		The maximum time the `input` function is allowed to be delayed before it's invoked.
 
-		This can be used to limit the number of calls handled in a constant stream.
+		This can be used to control the rate of calls handled in a constant stream.
 		For example, a media player sending updates every few milliseconds but wants to be handled only once a second.
 
-		@default 0
+		@default Infinity
 		*/
 		readonly maxWait?: number;
 
