@@ -1,7 +1,6 @@
-'use strict';
-const mimicFn = require('mimic-fn');
+import mimicFn from 'mimic-fn';
 
-module.exports = (inputFunction, options = {}) => {
+const debounceFn = (inputFunction, options = {}) => {
 	if (typeof inputFunction !== 'function') {
 		throw new TypeError(`Expected the first argument to be a function, got \`${typeof inputFunction}\``);
 	}
@@ -81,3 +80,5 @@ module.exports = (inputFunction, options = {}) => {
 
 	return debouncedFunction;
 };
+
+export default debounceFn;

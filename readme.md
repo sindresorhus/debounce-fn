@@ -11,7 +11,7 @@ $ npm install debounce-fn
 ## Usage
 
 ```js
-const debounceFn = require('debounce-fn');
+import debounceFn from 'debounce-fn';
 
 window.onresize = debounceFn(() => {
 	// Do something on window resize
