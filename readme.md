@@ -46,7 +46,7 @@ Time in milliseconds to wait until the `input` function is called.
 ##### maxWait
 
 Type: `number`\
-Default: `0` (disabled)
+Default: `Infinity`
 
 The maximum time the `input` function is allowed to be delayed before it's invoked.
 
