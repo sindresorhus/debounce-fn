@@ -142,3 +142,97 @@ test('.cancel() method', async t => {
 	t.is(debounced(3), undefined);
 	t.is(count, 0);
 });
+
+test('before:false after:true `maxWait` option', async t => {
+	let count = 0;
+
+	const debounced = debounceFn(value => {
+		count++;
+		return value;
+	}, {
+		wait: 40,
+		maxWait: 50,
+		after: true,
+		before: false
+	});
+
+	t.is(debounced(1), undefined);
+	t.is(count, 0);
+	await delay(30);
+	t.is(count, 0);
+
+	t.is(debounced(2), undefined);
+	t.is(count, 0);
+	await delay(30);
+	t.is(count, 1);
+
+	t.is(debounced(3), 1);
+
+	t.is(count, 1);
+	await delay(200);
+	t.is(count, 2);
+});
+
+test('before:true after:false `maxWait` option', async t => {
+	let count = 0;
+
+	const debounced = debounceFn(value => {
+		count++;
+		return value;
+	}, {
+		wait: 40,
+		maxWait: 50,
+		after: false,
+		before: true
+	});
+
+	t.is(debounced(1), 1);
+	t.is(count, 1);
+	await delay(30);
+
+	t.is(debounced(2), 1);
+	t.is(count, 1);
+	await delay(30);
+	t.is(count, 1);
+
+	t.is(debounced(3), 3);
+	t.is(count, 2);
+
+	await delay(50);
+	t.is(count, 2);
+
+	t.is(debounced(4), 4);
+	t.is(count, 3);
+});
+
+test('before:true after:true `maxWait` option', async t => {
+	let count = 0;
+
+	const debounced = debounceFn(value => {
+		count++;
+		return value;
+	}, {
+		wait: 40,
+		maxWait: 50,
+		after: true,
+		before: true
+	});
+
+	t.is(debounced(1), 1);
+	t.is(count, 1);
+	await delay(30);
+
+	t.is(debounced(2), 1);
+	t.is(count, 1);
+	await delay(30);
+	t.is(count, 2);
+
+	t.is(debounced(3), 3);
+	t.is(count, 3);
+
+	await delay(50);
+	t.is(count, 4);
+
+	t.is(debounced(4), 4);
+	t.is(count, 5);
+});

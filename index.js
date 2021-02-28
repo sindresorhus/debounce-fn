@@ -7,6 +7,7 @@ const debounceFn = (inputFunction, options = {}) => {
 
 	const {
 		wait = 0,
+		maxWait = Number.Infinity,
 		before = false,
 		after = true
 	} = options;
@@ -16,6 +17,7 @@ const debounceFn = (inputFunction, options = {}) => {
 	}
 
 	let timeout;
+	let maxTimeout;
 	let result;
 
 	const debouncedFunction = function (...arguments_) {
@@ -23,6 +25,24 @@ const debounceFn = (inputFunction, options = {}) => {
 
 		const later = () => {
 			timeout = undefined;
+
+			if (maxTimeout) {
+				clearTimeout(maxTimeout);
+				maxTimeout = undefined;
+			}
+
+			if (after) {
+				result = inputFunction.apply(context, arguments_);
+			}
+		};
+
+		const maxLater = () => {
+			maxTimeout = undefined;
+
+			if (timeout) {
+				clearTimeout(timeout);
+				timeout = undefined;
+			}
 
 			if (after) {
 				result = inputFunction.apply(context, arguments_);
@@ -32,6 +52,10 @@ const debounceFn = (inputFunction, options = {}) => {
 		const shouldCallNow = before && !timeout;
 		clearTimeout(timeout);
 		timeout = setTimeout(later, wait);
+
+		if (maxWait > 0 && maxWait !== Number.Infinity && !maxTimeout) {
+			maxTimeout = setTimeout(maxLater, maxWait);
+		}
 
 		if (shouldCallNow) {
 			result = inputFunction.apply(context, arguments_);
@@ -46,6 +70,11 @@ const debounceFn = (inputFunction, options = {}) => {
 		if (timeout) {
 			clearTimeout(timeout);
 			timeout = undefined;
+		}
+
+		if (maxTimeout) {
+			clearTimeout(maxTimeout);
+			maxTimeout = undefined;
 		}
 	};
 

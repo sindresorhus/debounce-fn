@@ -41,7 +41,16 @@ Type: `object`
 Type: `number`\
 Default: `0`
 
-Time to wait until the `input` function is called.
+Time in milliseconds to wait until the `input` function is called.
+
+##### maxWait
+
+Type: `number`\
+Default: `Infinity`
+
+The maximum time the `input` function is allowed to be delayed before it's invoked.
+
+This can be used to limit the number of calls handled in a constant stream. For example, a media player sending updates every few milliseconds but wants to be handled only once a second.
 
 ##### before
 
