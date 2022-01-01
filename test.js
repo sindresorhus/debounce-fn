@@ -9,7 +9,7 @@ test('debounces a function', async t => {
 		count++;
 		return value;
 	}, {
-		wait: 20
+		wait: 20,
 	});
 
 	t.is(debounced(1), undefined);
@@ -31,10 +31,10 @@ test('before:false after:false options', t => {
 		debounceFn(() => null, {
 			wait: 20,
 			before: false,
-			after: false
+			after: false,
 		});
 	}, {
-		message: 'Both `before` and `after` are false, function wouldn\'t be called.'
+		message: 'Both `before` and `after` are false, function wouldn\'t be called.',
 	});
 });
 
@@ -47,7 +47,7 @@ test('before:true after:false options', async t => {
 	}, {
 		wait: 20,
 		before: true,
-		after: false
+		after: false,
 	});
 
 	t.is(debounced(1), 1);
@@ -74,7 +74,7 @@ test('before:false after:true options', async t => {
 	}, {
 		wait: 20,
 		before: false,
-		after: true
+		after: true,
 	});
 
 	t.is(debounced(1), undefined);
@@ -101,7 +101,7 @@ test('before:true after:true options', async t => {
 	}, {
 		wait: 20,
 		before: true,
-		after: true
+		after: true,
 	});
 
 	t.is(debounced(1), 1);
@@ -127,7 +127,7 @@ test('.cancel() method', async t => {
 		count++;
 		return value;
 	}, {
-		wait: 20
+		wait: 20,
 	});
 
 	t.is(debounced(1), undefined);
@@ -153,7 +153,7 @@ test('before:false after:true `maxWait` option', async t => {
 		wait: 40,
 		maxWait: 50,
 		after: true,
-		before: false
+		before: false,
 	});
 
 	t.is(debounced(1), undefined);
@@ -183,7 +183,7 @@ test('before:true after:false `maxWait` option', async t => {
 		wait: 40,
 		maxWait: 50,
 		after: false,
-		before: true
+		before: true,
 	});
 
 	t.is(debounced(1), 1);
@@ -215,7 +215,7 @@ test('before:true after:true `maxWait` option', async t => {
 		wait: 40,
 		maxWait: 50,
 		after: true,
-		before: true
+		before: true,
 	});
 
 	t.is(debounced(1), 1);

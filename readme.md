@@ -4,8 +4,8 @@
 
 ## Install
 
-```
-$ npm install debounce-fn
+```sh
+npm install debounce-fn
 ```
 
 ## Usage

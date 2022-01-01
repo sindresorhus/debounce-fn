@@ -9,7 +9,7 @@ const debounceFn = (inputFunction, options = {}) => {
 		wait = 0,
 		maxWait = Number.Infinity,
 		before = false,
-		after = true
+		after = true,
 	} = options;
 
 	if (!before && !after) {
@@ -21,7 +21,7 @@ const debounceFn = (inputFunction, options = {}) => {
 	let result;
 
 	const debouncedFunction = function (...arguments_) {
-		const context = this;
+		const context = this; // eslint-disable-line unicorn/no-this-assignment
 
 		const later = () => {
 			timeout = undefined;
