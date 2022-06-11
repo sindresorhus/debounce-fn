@@ -1,6 +1,6 @@
 {
 	"name": "debounce-fn",
-	"version": "5.1.0",
+	"version": "5.1.1",
 	"description": "Debounce a function",
 	"license": "MIT",
 	"repository": "sindresorhus/debounce-fn",
