@@ -7,7 +7,7 @@ const debounceFn = (inputFunction, options = {}) => {
 
 	const {
 		wait = 0,
-		maxWait = Number.Infinity,
+		maxWait = Number.POSITIVE_INFINITY,
 		before = false,
 		after = true,
 	} = options;
