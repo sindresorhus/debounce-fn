@@ -53,7 +53,7 @@ const debounceFn = (inputFunction, options = {}) => {
 		clearTimeout(timeout);
 		timeout = setTimeout(later, wait);
 
-		if (maxWait > 0 && maxWait !== Number.Infinity && !maxTimeout) {
+		if (maxWait > 0 && maxWait !== Number.POSITIVE_INFINITY && !maxTimeout) {
 			maxTimeout = setTimeout(maxLater, maxWait);
 		}
 
