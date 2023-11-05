@@ -1,6 +1,6 @@
-import mimicFn from 'mimic-fn';
+import mimicFunction from 'mimic-function';
 
-const debounceFn = (inputFunction, options = {}) => {
+const debounceFunction = (inputFunction, options = {}) => {
 	if (typeof inputFunction !== 'function') {
 		throw new TypeError(`Expected the first argument to be a function, got \`${typeof inputFunction}\``);
 	}
@@ -11,6 +11,10 @@ const debounceFn = (inputFunction, options = {}) => {
 		before = false,
 		after = true,
 	} = options;
+
+	if (wait < 0 || maxWait < 0) {
+		throw new RangeError('`wait` and `maxWait` must not be negative.');
+	}
 
 	if (!before && !after) {
 		throw new Error('Both `before` and `after` are false, function wouldn\'t be called.');
@@ -64,7 +68,7 @@ const debounceFn = (inputFunction, options = {}) => {
 		return result;
 	};
 
-	mimicFn(debouncedFunction, inputFunction);
+	mimicFunction(debouncedFunction, inputFunction);
 
 	debouncedFunction.cancel = () => {
 		if (timeout) {
@@ -81,4 +85,4 @@ const debounceFn = (inputFunction, options = {}) => {
 	return debouncedFunction;
 };
 
-export default debounceFn;
+export default debounceFunction;

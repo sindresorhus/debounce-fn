@@ -11,16 +11,16 @@ npm install debounce-fn
 ## Usage
 
 ```js
-import debounceFn from 'debounce-fn';
+import debounceFunction from 'debounce-fn';
 
-window.onresize = debounceFn(() => {
+window.onresize = debounceFunction(() => {
 	// Do something on window resize
 }, {wait: 100});
 ```
 
 ## API
 
-### debounceFn(input, options?)
+### debounceFunction(input, options?)
 
 Returns a debounced function that delays calling the `input` function until after `wait` milliseconds have elapsed since the last time the debounced function was called.
 

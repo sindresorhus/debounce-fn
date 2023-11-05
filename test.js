@@ -1,11 +1,11 @@
 import test from 'ava';
 import delay from 'delay';
-import debounceFn from './index.js';
+import debounceFunction from './index.js';
 
 test('debounces a function', async t => {
 	let count = 0;
 
-	const debounced = debounceFn(value => {
+	const debounced = debounceFunction(value => {
 		count++;
 		return value;
 	}, {
@@ -28,7 +28,7 @@ test('debounces a function', async t => {
 
 test('before:false after:false options', t => {
 	t.throws(() => {
-		debounceFn(() => null, {
+		debounceFunction(() => null, {
 			wait: 20,
 			before: false,
 			after: false,
@@ -41,7 +41,7 @@ test('before:false after:false options', t => {
 test('before:true after:false options', async t => {
 	let count = 0;
 
-	const debounced = debounceFn(value => {
+	const debounced = debounceFunction(value => {
 		count++;
 		return value;
 	}, {
@@ -68,7 +68,7 @@ test('before:true after:false options', async t => {
 test('before:false after:true options', async t => {
 	let count = 0;
 
-	const debounced = debounceFn(value => {
+	const debounced = debounceFunction(value => {
 		count++;
 		return value;
 	}, {
@@ -95,7 +95,7 @@ test('before:false after:true options', async t => {
 test('before:true after:true options', async t => {
 	let count = 0;
 
-	const debounced = debounceFn(value => {
+	const debounced = debounceFunction(value => {
 		count++;
 		return value;
 	}, {
@@ -123,7 +123,7 @@ test('before:true after:true options', async t => {
 test('.cancel() method', async t => {
 	let count = 0;
 
-	const debounced = debounceFn(value => {
+	const debounced = debounceFunction(value => {
 		count++;
 		return value;
 	}, {
@@ -146,7 +146,7 @@ test('.cancel() method', async t => {
 test('before:false after:true `maxWait` option', async t => {
 	let count = 0;
 
-	const debounced = debounceFn(value => {
+	const debounced = debounceFunction(value => {
 		count++;
 		return value;
 	}, {
@@ -176,7 +176,7 @@ test('before:false after:true `maxWait` option', async t => {
 test('before:true after:false `maxWait` option', async t => {
 	let count = 0;
 
-	const debounced = debounceFn(value => {
+	const debounced = debounceFunction(value => {
 		count++;
 		return value;
 	}, {
@@ -208,7 +208,7 @@ test('before:true after:false `maxWait` option', async t => {
 test('before:true after:true `maxWait` option', async t => {
 	let count = 0;
 
-	const debounced = debounceFn(value => {
+	const debounced = debounceFunction(value => {
 		count++;
 		return value;
 	}, {
@@ -235,4 +235,85 @@ test('before:true after:true `maxWait` option', async t => {
 
 	t.is(debounced(4), 4);
 	t.is(count, 5);
+});
+
+test('maxWait triggers with after set to false', async t => {
+	let count = 0;
+
+	const debounced = debounceFunction(value => {
+		count++;
+		return value;
+	}, {
+		wait: 20,
+		maxWait: 50,
+		after: false,
+		before: true,
+	});
+
+	// Should invoke immediately since before is true
+	t.is(debounced(1), 1);
+	t.is(count, 1);
+
+	// `maxWait`` should not trigger the function since after is false
+	await delay(70);
+	t.is(count, 1); // No additional calls should have been made
+});
+
+test('`wait` and `maxWait` are the same', async t => {
+	let count = 0;
+
+	const debounced = debounceFunction(() => {
+		count++;
+	}, {
+		wait: 50,
+		maxWait: 50,
+		after: true,
+	});
+
+	debounced();
+	await delay(20);
+	debounced();
+	await delay(20);
+	debounced();
+	await delay(60); // Should be invoked once due to maxWait
+
+	t.is(count, 1);
+});
+
+test('`maxWait` less than `wait`', async t => {
+	let count = 0;
+
+	const debounced = debounceFunction(() => {
+		count++;
+	}, {
+		wait: 100,
+		maxWait: 50,
+		after: true,
+	});
+
+	debounced();
+	await delay(30);
+	debounced();
+	await delay(30); // Should be invoked here due to maxWait
+
+	t.is(count, 1);
+	await delay(100);
+	t.is(count, 1); // Should not be invoked again
+});
+
+test('continuous rapid calls preventing `after` invocation', async t => {
+	let count = 0;
+
+	const debounced = debounceFunction(() => {
+		count++;
+	}, {
+		wait: 50,
+		after: true,
+	});
+
+	const interval = setInterval(debounced, 10);
+	await delay(200);
+	clearInterval(interval);
+
+	t.is(count, 0); // Should never be called due to continuous rapid invocation
 });

@@ -1,4 +1,4 @@
-export interface Options {
+export type Options = {
 	/**
 	Time in milliseconds to wait until the `input` function is called.
 
@@ -30,21 +30,21 @@ export interface Options {
 	@default true
 	*/
 	readonly after?: boolean;
-}
+};
 
-export interface BeforeOptions extends Options {
+export type BeforeOptions = {
 	readonly before: true;
-}
+} & Options;
 
-export interface NoBeforeNoAfterOptions extends Options {
+export type NoBeforeNoAfterOptions = {
 	readonly after: false;
 	readonly before?: false;
-}
+} & Options;
 
-export interface DebouncedFunction<ArgumentsType extends unknown[], ReturnType> {
+export type DebouncedFunction<ArgumentsType extends unknown[], ReturnType> = {
 	(...arguments: ArgumentsType): ReturnType;
 	cancel(): void;
-}
+};
 
 /**
 [Debounce](https://davidwalsh.name/javascript-debounce-function) a function.
@@ -63,19 +63,17 @@ window.onresize = debounceFn(() => {
 }, {wait: 100});
 ```
 */
-declare function debounceFn<ArgumentsType extends unknown[], ReturnType>(
+export default function debounceFn<ArgumentsType extends unknown[], ReturnType>(
 	input: (...arguments: ArgumentsType) => ReturnType,
 	options: BeforeOptions
 ): DebouncedFunction<ArgumentsType, ReturnType>;
 
-declare function debounceFn<ArgumentsType extends unknown[], ReturnType>(
+export default function debounceFn<ArgumentsType extends unknown[], ReturnType>(
 	input: (...arguments: ArgumentsType) => ReturnType,
 	options: NoBeforeNoAfterOptions
 ): DebouncedFunction<ArgumentsType, undefined>;
 
-declare function debounceFn<ArgumentsType extends unknown[], ReturnType>(
+export default function debounceFn<ArgumentsType extends unknown[], ReturnType>(
 	input: (...arguments: ArgumentsType) => ReturnType,
 	options?: Options
 ): DebouncedFunction<ArgumentsType, ReturnType | undefined>;
-
-export default debounceFn;
