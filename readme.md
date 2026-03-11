@@ -70,4 +70,5 @@ Trigger the function on the trailing edge of the `wait` interval.
 
 ## Related
 
+- [debounce](https://github.com/sindresorhus/debounce) - Similar, but simpler. This package adds support for the `maxWait` and `before`/`after` options.
 - [p-debounce](https://github.com/sindresorhus/p-debounce) - Debounce promise-returning & async functions
