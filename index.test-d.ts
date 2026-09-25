@@ -1,24 +1,24 @@
-import {expectType, expectError} from 'tsd';
+import {expectTypeOf, expectError} from 'nz';
 import debounceFunction, {type DebouncedFunction} from './index.js';
 
-const stringToBoolean = (_string: string) => true;
+const isString = (_string: string) => true;
 
-const debounced = debounceFunction(stringToBoolean);
-expectType<DebouncedFunction<[string], boolean | undefined>>(debounced);
-expectType<boolean | undefined>(debounced('foo'));
+const debounced = debounceFunction(isString);
+expectTypeOf(debounced).toBe<DebouncedFunction<[string], boolean | undefined>>();
+expectTypeOf(debounced('foo')).toBe<boolean | undefined>();
 debounced.cancel();
 
-expectType<boolean | undefined>(debounceFunction(stringToBoolean)('foo'));
-expectError<boolean>(debounceFunction(stringToBoolean)('foo'));
+expectTypeOf(debounceFunction(isString)('foo')).toBe<boolean | undefined>();
+expectError<boolean>(debounceFunction(isString)('foo'));
 
-expectType<boolean | undefined>(debounceFunction(stringToBoolean, {wait: 20})('foo'));
-expectError<boolean>(debounceFunction(stringToBoolean, {wait: 20})('foo'));
-expectType<boolean | undefined>(debounceFunction(stringToBoolean, {after: true})('foo'));
-expectError<boolean>(debounceFunction(stringToBoolean, {after: true})('foo'));
+expectTypeOf(debounceFunction(isString, {wait: 20})('foo')).toBe<boolean | undefined>();
+expectError<boolean>(debounceFunction(isString, {wait: 20})('foo'));
+expectTypeOf(debounceFunction(isString, {after: true})('foo')).toBe<boolean | undefined>();
+expectError<boolean>(debounceFunction(isString, {after: true})('foo'));
 
-expectType<boolean>(debounceFunction(stringToBoolean, {before: true})('foo'));
-expectType<boolean>(debounceFunction(stringToBoolean, {before: true, after: true})('foo'));
+expectTypeOf(debounceFunction(isString, {before: true})('foo')).toBe<boolean>();
+expectTypeOf(debounceFunction(isString, {before: true, after: true})('foo')).toBe<boolean>();
 
-expectType<undefined>(debounceFunction(stringToBoolean, {after: false})('foo'));
+expectTypeOf(debounceFunction(isString, {after: false})('foo')).toBe<undefined>();
 
-expectError<boolean>(debounceFunction(stringToBoolean, {after: false})('foo'));
+expectError<boolean>(debounceFunction(isString, {after: false})('foo'));

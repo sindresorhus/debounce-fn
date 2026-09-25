@@ -1,13 +1,13 @@
 import mimicFunction from 'mimic-function';
 
-const debounceFunction = (inputFunction, options = {}) => {
+export default function debounceFunction(inputFunction, options = {}) {
 	if (typeof inputFunction !== 'function') {
 		throw new TypeError(`Expected the first argument to be a function, got \`${typeof inputFunction}\``);
 	}
 
 	const {
 		wait = 0,
-		maxWait = Number.POSITIVE_INFINITY,
+		maxWait = Infinity,
 		before = false,
 		after = true,
 	} = options;
@@ -57,7 +57,7 @@ const debounceFunction = (inputFunction, options = {}) => {
 		clearTimeout(timeout);
 		timeout = setTimeout(later, wait);
 
-		if (maxWait > 0 && maxWait !== Number.POSITIVE_INFINITY && !maxTimeout) {
+		if (!maxTimeout && maxWait !== Infinity && maxWait > 0) {
 			maxTimeout = setTimeout(maxLater, maxWait);
 		}
 
@@ -76,13 +76,13 @@ const debounceFunction = (inputFunction, options = {}) => {
 			timeout = undefined;
 		}
 
-		if (maxTimeout) {
-			clearTimeout(maxTimeout);
-			maxTimeout = undefined;
+		if (!maxTimeout) {
+			return;
 		}
+
+		clearTimeout(maxTimeout);
+		maxTimeout = undefined;
 	};
 
 	return debouncedFunction;
-};
-
-export default debounceFunction;
+}

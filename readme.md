@@ -48,7 +48,7 @@ Time in milliseconds to wait until the `input` function is called.
 Type: `number`\
 Default: `Infinity`
 
-The maximum time the `input` function is allowed to be delayed before it's invoked.
+The maximum time the `input` function is allowed to be delayed before it is invoked.
 
 This can be used to limit the number of calls handled in a constant stream. For example, a media player sending updates every few milliseconds but wants to be handled only once a second.
 

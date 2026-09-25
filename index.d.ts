@@ -7,7 +7,7 @@ export type Options = {
 	readonly wait?: number;
 
 	/**
-	The maximum time the `input` function is allowed to be delayed before it's invoked.
+	The maximum time the `input` function is allowed to be delayed before it is invoked.
 
 	This can be used to control the rate of calls handled in a constant stream. For example, a media player sending updates every few milliseconds but wants to be handled only once a second.
 
@@ -65,15 +65,15 @@ window.onresize = debounceFn(() => {
 */
 export default function debounceFn<ArgumentsType extends unknown[], ReturnType>(
 	input: (...arguments: ArgumentsType) => ReturnType,
-	options: BeforeOptions
+	options: BeforeOptions,
 ): DebouncedFunction<ArgumentsType, ReturnType>;
 
 export default function debounceFn<ArgumentsType extends unknown[], ReturnType>(
 	input: (...arguments: ArgumentsType) => ReturnType,
-	options: NoBeforeNoAfterOptions
+	options: NoBeforeNoAfterOptions,
 ): DebouncedFunction<ArgumentsType, undefined>;
 
 export default function debounceFn<ArgumentsType extends unknown[], ReturnType>(
 	input: (...arguments: ArgumentsType) => ReturnType,
-	options?: Options
+	options?: Options,
 ): DebouncedFunction<ArgumentsType, ReturnType | undefined>;
