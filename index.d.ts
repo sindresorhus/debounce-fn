@@ -9,7 +9,7 @@ export type Options = {
 	/**
 	The maximum time the `input` function is allowed to be delayed before it is invoked.
 
-	This can be used to control the rate of calls handled in a constant stream. For example, a media player sending updates every few milliseconds but wants to be handled only once a second.
+	This can be used to control the rate of calls handled in a constant stream. For example, a media player may send updates every few milliseconds, but you only want to handle them once a second.
 
 	@default Infinity
 	*/
@@ -56,24 +56,24 @@ It comes with a `.cancel()` method to cancel any scheduled `input` function call
 
 @example
 ```
-import debounceFn from 'debounce-fn';
+import debounceFunction from 'debounce-fn';
 
-window.onresize = debounceFn(() => {
+window.onresize = debounceFunction(() => {
 	// Do something on window resize
 }, {wait: 100});
 ```
 */
-export default function debounceFn<ArgumentsType extends unknown[], ReturnType>(
+export default function debounceFunction<ArgumentsType extends unknown[], ReturnType>(
 	input: (...arguments: ArgumentsType) => ReturnType,
 	options: BeforeOptions,
 ): DebouncedFunction<ArgumentsType, ReturnType>;
 
-export default function debounceFn<ArgumentsType extends unknown[], ReturnType>(
+export default function debounceFunction<ArgumentsType extends unknown[], ReturnType>(
 	input: (...arguments: ArgumentsType) => ReturnType,
 	options: NoBeforeNoAfterOptions,
 ): DebouncedFunction<ArgumentsType, undefined>;
 
-export default function debounceFn<ArgumentsType extends unknown[], ReturnType>(
+export default function debounceFunction<ArgumentsType extends unknown[], ReturnType>(
 	input: (...arguments: ArgumentsType) => ReturnType,
 	options?: Options,
 ): DebouncedFunction<ArgumentsType, ReturnType | undefined>;

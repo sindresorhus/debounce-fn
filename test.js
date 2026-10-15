@@ -167,7 +167,7 @@ test('before:false after:true `maxWait` option', async () => {
 	await delay(30);
 	assert.equal(count, 1);
 
-	assert.equal(debounced(3), 1);
+	assert.equal(debounced(3), 2);
 
 	assert.equal(count, 1);
 	await delay(200);
@@ -300,6 +300,82 @@ test('`maxWait` less than `wait`', async () => {
 	assert.equal(count, 1);
 	await delay(100);
 	assert.equal(count, 1); // Should not be invoked again
+});
+
+test('`maxWait` uses the latest arguments and `this`', async () => {
+	const calls = [];
+
+	const debounced = debounceFunction(function (value) {
+		calls.push([this.id, value]);
+	}, {
+		wait: 100,
+		maxWait: 150,
+	});
+
+	debounced.call({id: 'first'}, 'first');
+	await delay(50);
+	debounced.call({id: 'second'}, 'second');
+	await delay(50);
+	debounced.call({id: 'latest'}, 'latest');
+	await delay(150); // `maxWait` fires at 150 ms, so there is no trailing call at 200 ms
+
+	assert.deepEqual(calls, [['latest', 'latest']]);
+});
+
+test('`before` call uses its own `this`, and `maxWait` uses the latest', async () => {
+	const calls = [];
+
+	const debounced = debounceFunction(function (value) {
+		calls.push([this.id, value]);
+	}, {
+		wait: 100,
+		maxWait: 120,
+		before: true,
+	});
+
+	debounced.call({id: 'first'}, 'first');
+	await delay(50);
+	debounced.call({id: 'latest'}, 'latest');
+	await delay(200);
+
+	assert.deepEqual(calls, [['first', 'first'], ['latest', 'latest']]);
+});
+
+test('`.cancel()` with `maxWait` discards the pending call', async () => {
+	const calls = [];
+
+	const debounced = debounceFunction(value => {
+		calls.push(value);
+	}, {
+		wait: 50,
+		maxWait: 80,
+	});
+
+	debounced('stale');
+	await delay(30);
+	debounced.cancel();
+	await delay(100);
+
+	assert.deepEqual(calls, []);
+});
+
+test('calling the debounced function from inside the input function', async () => {
+	const calls = [];
+
+	const debounced = debounceFunction(function (value) {
+		calls.push([this.id, value]);
+
+		if (value === 'outer') {
+			debounced.call({id: 'inner'}, 'inner');
+		}
+	}, {
+		wait: 20,
+	});
+
+	debounced.call({id: 'outer'}, 'outer');
+	await delay(100);
+
+	assert.deepEqual(calls, [['outer', 'outer'], ['inner', 'inner']]);
 });
 
 test('continuous rapid calls preventing `after` invocation', async () => {

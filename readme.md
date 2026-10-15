@@ -50,7 +50,7 @@ Default: `Infinity`
 
 The maximum time the `input` function is allowed to be delayed before it is invoked.
 
-This can be used to limit the number of calls handled in a constant stream. For example, a media player sending updates every few milliseconds but wants to be handled only once a second.
+This can be used to control the rate of calls handled in a constant stream. For example, a media player may send updates every few milliseconds, but you only want to handle them once a second.
 
 ##### before
 
@@ -59,7 +59,7 @@ Default: `false`
 
 Trigger the function on the leading edge of the `wait` interval.
 
-For example, can be useful for preventing accidental double-clicks on a "submit" button from firing a second time.
+For example, this can be useful for preventing accidental double-clicks on a "submit" button from firing a second time.
 
 ##### after
 

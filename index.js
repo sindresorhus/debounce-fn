@@ -23,46 +23,42 @@ export default function debounceFunction(inputFunction, options = {}) {
 	let timeout;
 	let maxTimeout;
 	let result;
+	let latestContext;
+	let latestArguments;
+
+	const cancel = () => {
+		clearTimeout(timeout);
+		timeout = undefined;
+		clearTimeout(maxTimeout);
+		maxTimeout = undefined;
+		latestContext = undefined;
+		latestArguments = undefined;
+	};
+
+	const later = () => {
+		const context = latestContext;
+		const arguments_ = latestArguments;
+		cancel();
+
+		if (after) {
+			result = inputFunction.apply(context, arguments_);
+		}
+	};
 
 	const debouncedFunction = function (...arguments_) {
-		const context = this; // eslint-disable-line unicorn/no-this-assignment
-
-		const later = () => {
-			timeout = undefined;
-
-			if (maxTimeout) {
-				clearTimeout(maxTimeout);
-				maxTimeout = undefined;
-			}
-
-			if (after) {
-				result = inputFunction.apply(context, arguments_);
-			}
-		};
-
-		const maxLater = () => {
-			maxTimeout = undefined;
-
-			if (timeout) {
-				clearTimeout(timeout);
-				timeout = undefined;
-			}
-
-			if (after) {
-				result = inputFunction.apply(context, arguments_);
-			}
-		};
+		latestContext = this; // eslint-disable-line unicorn/no-this-assignment
+		latestArguments = arguments_;
 
 		const shouldCallNow = before && !timeout;
 		clearTimeout(timeout);
 		timeout = setTimeout(later, wait);
 
 		if (!maxTimeout && maxWait !== Infinity && maxWait > 0) {
-			maxTimeout = setTimeout(maxLater, maxWait);
+			maxTimeout = setTimeout(later, maxWait);
 		}
 
 		if (shouldCallNow) {
-			result = inputFunction.apply(context, arguments_);
+			result = inputFunction.apply(this, arguments_);
 		}
 
 		return result;
@@ -70,19 +66,7 @@ export default function debounceFunction(inputFunction, options = {}) {
 
 	mimicFunction(debouncedFunction, inputFunction);
 
-	debouncedFunction.cancel = () => {
-		if (timeout) {
-			clearTimeout(timeout);
-			timeout = undefined;
-		}
-
-		if (!maxTimeout) {
-			return;
-		}
-
-		clearTimeout(maxTimeout);
-		maxTimeout = undefined;
-	};
+	debouncedFunction.cancel = cancel;
 
 	return debouncedFunction;
 }
